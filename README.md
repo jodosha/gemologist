@@ -15,15 +15,21 @@ Gemologist has two components: the resolver and the web app.
 
 ### Resolver
 
-It's database-less, that means the only way to add a repository is via command line:
+It's database-less, that means there are two ways to add a repository
 
-    $ bundle exec bin/gemologist add foo https://github.com/jodosha/foo.git
+1. Adding via command line:
+
+    $ ruby bin/gemologist add foo https://github.com/jodosha/foo.git
 
 It creates a `foo` directory under `repositories` and checks if its dependencies are out of date.
 
+2. Symlinking the repository:
+
+    $ ln -s ~/code/foo /path/to/gemologist/repositories
+
 In order to check the status of all the repositories run:
 
-    $ bundle exec bin/gemologist
+    $ ruby bin/gemologist
 
 Pheraps you may want to use UNIX Cron for this.
 
