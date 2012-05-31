@@ -1,0 +1,71 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>Gemologist - A specialist in gems.</title>
+    <meta name="description" content="This is a self-hosted tool to check if your Ruby gems dependencies are up-to-date.">
+    <meta name="author" content="Luca Guidi">
+
+    <meta name="viewport" content="width=device-width">
+
+    <style type="text/css">
+      * { margin: 0; padding: 0; }
+      body { font-family: Helvetica,Arial,sans-serif; color: #4D5350; background-color: #E1E9D6; font-size: 16px; line-height: 24px; }
+      h1 { margin: -20px; font-size: 60px; line-height: 100px; text-align: center; color: #54C0D6; }
+      h3 { margin: 24px 0 6px 0; font-size: 20px; line-height: 18px; }
+      hr { color: #B2B9AA; background-color: #B2B9AA; }
+      p { margin: 0 0 24px 0; }
+      ul { margin: 0 24px 24px; }
+      li { line-height: 24px; list-style-type: none;}
+      a, a:visited { color: #4D5350; text-decoration: none; padding: 1px; }
+      a:hover { text-decoration: underline; }
+      footer { margin:0 auto 0; padding: 12px; width:700px; font-size: 10px; color: #A0A592; }
+      footer a { color: #A0A592; }
+      #motto { text-align: center; margin-top: -30px; margin-left: -28px; font-style: oblique; font-size: 12px; color: #5C5E59;}
+      #container { margin:0 auto; padding: 24px; width:700px; background-color:#F5F5F5; }
+      #github { float: right; }
+      .outdated:after { content: "(Outdated)"; font-size: 10px; color: #DF492E; }
+      .updated:after  { content: "(Updated)"; font-size: 10px; color: #0f0; }
+      .dependency a:hover { color: #EDB12A; text-decoration: none;}
+      .right { text-align: right; }
+      .small { font-size: 12px; }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <header>
+        <h1>Gemologist</h1>
+        <p id="motto">A specialist in gems.</p>
+      </header>
+
+      <hr />
+      <content id="repositories">
+        <% @repositories.each do |repo| %>
+          <h3 class="repository <%= repo.fetch('outdated') ? 'outdated' : 'updated' %>">
+            <%= repo.fetch('name') %>
+          </h3>
+
+          <div>
+            <ul>
+            <% repo.fetch('outdated_dependencies').each do |dep| %>
+              <li class="dependency">
+                <a href="http://rubygems.org/gems/<%= dep.fetch('name') %>" target="_blank">
+                  <strong><%= dep.fetch('name') %></strong> <span class="small">(<%= dep.fetch('current') %> &rarr; <%= dep.fetch('latest') %>)</span>
+                </a>
+              </li>
+            <% end %>
+            </ul>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <footer>
+      <div id="github">
+        <a href="http://github.com/jodosha/gemologist">Gemologist</a>
+      </div>
+      <%= @updated_at.strftime("Updated on %B %d, %Y at %I:%M%p") %>
+    </footer>
+  </body>
+</html>

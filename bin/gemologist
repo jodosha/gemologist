@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby -w
+$:.unshift('lib')
+require 'gemologist/cli'
+
+if ARGV[0] == 'add' && ARGV[1..2].any? {|arg| arg.nil? }
+  puts Gemologist::CLI.banner and exit(1)
+end
+
+ARGV.shift
+
+Gemologist::CLI.start(ARGV)
